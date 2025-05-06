@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro DeepWork - 1500x600</title>
+    <title>Pomodoro DeepWork - Benigno Calderón e Hijos Ltda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -263,6 +264,39 @@
             background: rgba(223, 32, 50, 0.05);
             border: 1px solid rgba(223, 32, 50, 0.1);
         }
+        
+        /* Estilos para el logo de texto BCH */
+        .logo-text {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #DF2032;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(223, 32, 50, 0.3);
+        }
+        
+        .logo-text-inner {
+            color: white;
+            font-size: 72px;
+            letter-spacing: -2px;
+        }
+        
+        .company-name {
+            max-width: 90%;
+            text-align: center;
+            line-height: 1.3;
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -286,25 +320,16 @@
         <div class="section logo-section">
             <h1 class="text-3xl font-bold text-center mb-8 transition-colors duration-500">DeepWork Pomodoro</h1>
             
-            <!-- Logo Container - Reemplaza el contenido de este div con tu logo -->
+            <!-- Logo Container con logo BCH -->
             <div class="logo-container">
-                <!-- OPCIÓN 1: Si tienes un SVG, reemplaza este SVG con el tuyo -->
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full text-[#DF2032]">
-                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-                </svg>
-                
-                <!-- OPCIÓN 2: Si tienes una imagen en base64 -->
-                <!-- 
-                <img src="data:image/png;base64,TU_CÓDIGO_BASE64_AQUÍ" alt="Logo de la empresa" class="company-logo">
-                -->
-                
-                <!-- OPCIÓN 3: Si quieres usar texto como logo -->
-                <!-- 
-                <div class="text-[#DF2032] text-4xl font-bold">TU LOGO</div>
-                -->
+                <div class="logo-text">
+                    <div class="logo-circle">
+                        <div class="logo-text-inner">BCH</div>
+                    </div>
+                </div>
             </div>
             
-            <div class="text-xl mt-4 opacity-80 transition-colors duration-500">Tu Empresa</div>
+            <div class="text-xl mt-4 opacity-80 transition-colors duration-500 company-name">Benigno Calderón e Hijos Ltda</div>
         </div>
         
         <!-- Timer Section -->
@@ -388,10 +413,10 @@
             
             // Frases colombianas (ejemplos - puedes reemplazarlas)
             const workPhrases = [
-                "¡Dele con toda, parcero!",
+                "¡Dele con toda!",
                 "¡Échele ganas que sí se puede!",
                 "¡A darle duro, como el buen colombiano!",
-                "¡Póngale mente que esto está mamey!",
+                "¡Enfoquese que todo sale!",
                 "¡Métale el acelerador a esa tarea!"
             ];
             
@@ -565,5 +590,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bb718af025da0b',t:'MTc0NjU2NTYwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bbde1695284960',t:'MTc0NjU3MDA1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
