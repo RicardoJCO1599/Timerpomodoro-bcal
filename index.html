@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro DeepWork - 1500x600</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+        
+        body.dark-mode {
+            background: #1C1C1C;
+            color: #FEFFFA;
+        }
+        
+        body.light-mode {
+            background: #F5F5F7;
+            color: #1C1C1C;
+        }
+        
+        .pomodoro-container {
+            width: 1500px;
+            height: 600px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .pomodoro-container {
+            background: #1C1C1C;
+            border: 1px solid rgba(254, 255, 250, 0.1);
+        }
+        
+        .light-mode .pomodoro-container {
+            background: #FFFFFF;
+            border: 1px solid rgba(28, 28, 28, 0.1);
+        }
+        
+        .section {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .section {
+            border-right: 1px solid rgba(254, 255, 250, 0.1);
+        }
+        
+        .light-mode .section {
+            border-right: 1px solid rgba(28, 28, 28, 0.1);
+        }
+        
+        .logo-section {
+            width: 30%;
+        }
+        
+        .timer-section {
+            width: 40%;
+        }
+        
+        .phrase-section {
+            width: 30%;
+            border-right: none !important;
+        }
+        
+        .logo-container {
+            width: 240px;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .logo-container {
+            background: rgba(254, 255, 250, 0.05);
+        }
+        
+        .light-mode .logo-container {
+            background: rgba(28, 28, 28, 0.05);
+        }
+        
+        .timer-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 40px;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .timer-circle {
+            background: rgba(254, 255, 250, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .light-mode .timer-circle {
+            background: rgba(28, 28, 28, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer-circle::before {
+            content: '';
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .timer-circle::before {
+            background: rgba(254, 255, 250, 0.02);
+        }
+        
+        .light-mode .timer-circle::before {
+            background: rgba(28, 28, 28, 0.02);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .button {
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .phrase-container {
+            height: 120px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 20px;
+            border-radius: 16px;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .phrase-container {
+            background: rgba(254, 255, 250, 0.05);
+        }
+        
+        .light-mode .phrase-container {
+            background: rgba(28, 28, 28, 0.05);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        
+        input {
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode input {
+            background: rgba(254, 255, 250, 0.05) !important;
+            color: #FEFFFA !important;
+            border: 1px solid rgba(254, 255, 250, 0.1) !important;
+        }
+        
+        .light-mode input {
+            background: rgba(28, 28, 28, 0.05) !important;
+            color: #1C1C1C !important;
+            border: 1px solid rgba(28, 28, 28, 0.1) !important;
+        }
+        
+        input:focus {
+            border-color: #DF2032 !important;
+            box-shadow: 0 0 0 1px #DF2032 !important;
+        }
+        
+        .company-logo {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode .theme-toggle {
+            background: rgba(254, 255, 250, 0.1);
+            color: #FEFFFA;
+        }
+        
+        .light-mode .theme-toggle {
+            background: rgba(28, 28, 28, 0.1);
+            color: #1C1C1C;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        .tip-container {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            transition: all 0.5s ease;
+        }
+        
+        .dark-mode .tip-container {
+            background: rgba(223, 32, 50, 0.1);
+            border: 1px solid rgba(223, 32, 50, 0.2);
+        }
+        
+        .light-mode .tip-container {
+            background: rgba(223, 32, 50, 0.05);
+            border: 1px solid rgba(223, 32, 50, 0.1);
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="pomodoro-container">
+        <!-- Theme Toggle Button -->
+        <div class="theme-toggle" id="themeToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="themeIcon">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </div>
+        
+        <!-- Logo Section -->
+        <div class="section logo-section">
+            <h1 class="text-3xl font-bold text-center mb-8 transition-colors duration-500">DeepWork Pomodoro</h1>
+            
+            <!-- Logo Container - Reemplaza el contenido de este div con tu logo -->
+            <div class="logo-container">
+                <!-- OPCIÓN 1: Si tienes un SVG, reemplaza este SVG con el tuyo -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full text-[#DF2032]">
+                    <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+                
+                <!-- OPCIÓN 2: Si tienes una imagen en base64 -->
+                <!-- 
+                <img src="data:image/png;base64,TU_CÓDIGO_BASE64_AQUÍ" alt="Logo de la empresa" class="company-logo">
+                -->
+                
+                <!-- OPCIÓN 3: Si quieres usar texto como logo -->
+                <!-- 
+                <div class="text-[#DF2032] text-4xl font-bold">TU LOGO</div>
+                -->
+            </div>
+            
+            <div class="text-xl mt-4 opacity-80 transition-colors duration-500">Tu Empresa</div>
+        </div>
+        
+        <!-- Timer Section -->
+        <div class="section timer-section">
+            <div class="timer-circle">
+                <svg class="progress-ring" width="280" height="280">
+                    <circle 
+                        class="progress-ring-circle" 
+                        stroke="#DF2032" 
+                        stroke-width="8"
+                        fill="transparent"
+                        r="130" 
+                        cx="140" 
+                        cy="140"
+                    />
+                </svg>
+                <div class="absolute flex flex-col items-center">
+                    <div id="timer" class="text-5xl font-bold transition-colors duration-500">25:00</div>
+                    <div id="mode" class="text-xl text-[#DF2032] mt-2">Trabajo</div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center space-x-6 mb-8">
+                <button id="startBtn" class="button bg-[#DF2032] hover:bg-[#c01b2b] text-[#FEFFFA] font-semibold py-4 px-8 rounded-lg shadow-lg text-lg">
+                    Iniciar
+                </button>
+                <button id="resetBtn" class="button border border-opacity-20 font-semibold py-4 px-8 rounded-lg shadow-lg text-lg transition-colors duration-500 dark-mode:bg-[#1C1C1C] dark-mode:border-[#FEFFFA] dark-mode:hover:bg-[#2a2a2a] dark-mode:text-[#FEFFFA] light-mode:bg-[#F5F5F7] light-mode:border-[#1C1C1C] light-mode:hover:bg-[#E5E5E7] light-mode:text-[#1C1C1C]">
+                    Reiniciar
+                </button>
+            </div>
+            
+            <div class="flex justify-center space-x-8">
+                <div>
+                    <label class="block text-lg font-medium mb-2 transition-colors duration-500">Trabajo</label>
+                    <input id="workTime" type="number" min="1" max="60" value="25" class="w-20 h-12 text-lg rounded-md px-3 py-2 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-lg font-medium mb-2 transition-colors duration-500">Descanso</label>
+                    <input id="breakTime" type="number" min="1" max="60" value="5" class="w-20 h-12 text-lg rounded-md px-3 py-2 focus:outline-none">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Phrase Section -->
+        <div class="section phrase-section">
+            <h3 class="text-2xl font-semibold text-[#DF2032] mb-6">Frase Motivacional</h3>
+            
+            <div class="phrase-container mb-8">
+                <p id="phrase" class="text-xl italic fade-in transition-colors duration-500">¡Listo para empezar tu sesión de DeepWork!</p>
+            </div>
+            
+            <div class="tip-container">
+                <p class="text-center transition-colors duration-500">
+                    <span class="text-[#DF2032] font-semibold">Tip:</span> Utiliza la técnica Pomodoro para aumentar tu productividad y mantener el enfoque en tus tareas más importantes.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timerDisplay = document.getElementById('timer');
+            const modeDisplay = document.getElementById('mode');
+            const startBtn = document.getElementById('startBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const workTimeInput = document.getElementById('workTime');
+            const breakTimeInput = document.getElementById('breakTime');
+            const phraseElement = document.getElementById('phrase');
+            const progressRing = document.querySelector('.progress-ring-circle');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const body = document.body;
+            
+            // Configuración inicial
+            let isRunning = false;
+            let isWorkMode = true;
+            let timer;
+            let timeLeft;
+            let totalTime;
+            let isDarkMode = true;
+            
+            // Frases colombianas (ejemplos - puedes reemplazarlas)
+            const workPhrases = [
+                "¡Dele con toda, parcero!",
+                "¡Échele ganas que sí se puede!",
+                "¡A darle duro, como el buen colombiano!",
+                "¡Póngale mente que esto está mamey!",
+                "¡Métale el acelerador a esa tarea!"
+            ];
+            
+            const breakPhrases = [
+                "¡Tome un tinto y relájese, se lo merece!",
+                "¡Qué chimba, ya puede descansar!",
+                "¡Uff, qué bacano un descanso!",
+                "¡Ahora sí, a recargar pilas!",
+                "¡Descanse, que la vida es una sola, papá!"
+            ];
+            
+            // Configurar el círculo de progreso
+            const radius = 130;
+            const circumference = 2 * Math.PI * radius;
+            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressRing.style.strokeDashoffset = circumference;
+            
+            function setProgress(percent) {
+                const offset = circumference - (percent / 100 * circumference);
+                progressRing.style.strokeDashoffset = offset;
+            }
+            
+            function updateTimerDisplay(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                // Actualizar el progreso
+                const percentComplete = 100 - ((seconds / totalTime) * 100);
+                setProgress(percentComplete);
+            }
+            
+            function showRandomPhrase(phrases) {
+                const randomIndex = Math.floor(Math.random() * phrases.length);
+                phraseElement.classList.remove('fade-in');
+                
+                // Trigger reflow to restart animation
+                void phraseElement.offsetWidth;
+                
+                phraseElement.textContent = phrases[randomIndex];
+                phraseElement.classList.add('fade-in');
+            }
+            
+            function startTimer() {
+                if (isRunning) {
+                    clearInterval(timer);
+                    startBtn.textContent = 'Continuar';
+                    isRunning = false;
+                    return;
+                }
+                
+                if (timeLeft === undefined) {
+                    // Iniciar nuevo temporizador
+                    isWorkMode = true;
+                    modeDisplay.textContent = 'Trabajo';
+                    modeDisplay.classList.remove('text-[#7a82ff]');
+                    modeDisplay.classList.add('text-[#DF2032]');
+                    progressRing.setAttribute('stroke', '#DF2032'); // Rojo para trabajo
+                    totalTime = workTimeInput.value * 60;
+                    timeLeft = totalTime;
+                    showRandomPhrase(workPhrases);
+                }
+                
+                startBtn.textContent = 'Pausar';
+                isRunning = true;
+                
+                timer = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay(timeLeft);
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        
+                        // Cambiar entre modos de trabajo y descanso
+                        isWorkMode = !isWorkMode;
+                        
+                        if (isWorkMode) {
+                            modeDisplay.textContent = 'Trabajo';
+                            modeDisplay.classList.remove('text-[#7a82ff]');
+                            modeDisplay.classList.add('text-[#DF2032]');
+                            progressRing.setAttribute('stroke', '#DF2032'); // Rojo para trabajo
+                            totalTime = workTimeInput.value * 60;
+                            showRandomPhrase(workPhrases);
+                        } else {
+                            modeDisplay.textContent = 'Descanso';
+                            modeDisplay.classList.remove('text-[#DF2032]');
+                            modeDisplay.classList.add('text-[#7a82ff]');
+                            progressRing.setAttribute('stroke', '#7a82ff'); // Azul para descanso
+                            totalTime = breakTimeInput.value * 60;
+                            showRandomPhrase(breakPhrases);
+                        }
+                        
+                        timeLeft = totalTime;
+                        updateTimerDisplay(timeLeft);
+                        startTimer(); // Continuar automáticamente
+                    }
+                }, 1000);
+            }
+            
+            function resetTimer() {
+                clearInterval(timer);
+                isRunning = false;
+                timeLeft = undefined;
+                startBtn.textContent = 'Iniciar';
+                
+                // Restablecer a modo de trabajo
+                isWorkMode = true;
+                modeDisplay.textContent = 'Trabajo';
+                modeDisplay.classList.remove('text-[#7a82ff]');
+                modeDisplay.classList.add('text-[#DF2032]');
+                progressRing.setAttribute('stroke', '#DF2032');
+                
+                // Mostrar tiempo inicial
+                updateTimerDisplay(workTimeInput.value * 60);
+                setProgress(0);
+                
+                // Restablecer frase
+                phraseElement.textContent = '¡Listo para empezar tu sesión de DeepWork!';
+            }
+            
+            // Función para cambiar el tema
+            function toggleTheme() {
+                isDarkMode = !isDarkMode;
+                
+                if (isDarkMode) {
+                    body.classList.remove('light-mode');
+                    body.classList.add('dark-mode');
+                    
+                    // Cambiar el ícono a sol
+                    themeIcon.innerHTML = `
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    `;
+                } else {
+                    body.classList.remove('dark-mode');
+                    body.classList.add('light-mode');
+                    
+                    // Cambiar el ícono a luna
+                    themeIcon.innerHTML = `
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    `;
+                }
+            }
+            
+            // Inicializar temporizador
+            updateTimerDisplay(workTimeInput.value * 60);
+            
+            // Event listeners
+            startBtn.addEventListener('click', startTimer);
+            resetBtn.addEventListener('click', resetTimer);
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Actualizar cuando se cambian los valores de tiempo
+            workTimeInput.addEventListener('change', () => {
+                if (!isRunning && (timeLeft === undefined || isWorkMode)) {
+                    updateTimerDisplay(workTimeInput.value * 60);
+                }
+            });
+            
+            breakTimeInput.addEventListener('change', () => {
+                if (!isRunning && timeLeft === undefined && !isWorkMode) {
+                    updateTimerDisplay(breakTimeInput.value * 60);
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93bb718af025da0b',t:'MTc0NjU2NTYwOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
